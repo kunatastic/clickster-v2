@@ -4,8 +4,8 @@ This tasks can be split into server's task and client's task.
 
 ## Server
 
- - [ ] Setup an initial node.js application and configure eslint.
- - [ ] Setup web-socket on server.
+ - [X] Setup an initial node.js application and configure eslint.
+ - [X] Setup web-socket on server.
  - [ ] Authentication/Authorization logic
  - [ ] Concurrent games logic
  - [ ] Data management logic
