@@ -12,9 +12,10 @@ This tasks can be split into server's task and client's task.
 
 ## Client
 
- - [ ] Configure tailwind-css
- - [ ] Configuring routes to `create-room`, `join-room`, `home-page`, `game-page`
- - [ ] Basic template design for all the pages
+ - [X] Configure tailwind-css
+ - [X] Configuring routes to `create-room`, `join-room`, `home-page`, `game-page`
+ - [ ] Setup Socket.io integration
+ - [X] Basic template design for all the pages
  - [ ] Button hoving logic
 
 
