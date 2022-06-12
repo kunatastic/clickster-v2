@@ -1,18 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import Button from '../components/Button';
+import React, { useContext, useEffect, useState } from 'react';
+import SubmitButton from '../components/SubmitButton';
 import Input from '../components/Input';
 import Nav from '../components/Nav';
+import { SocketContext } from '../context/SocketProvider';
+import * as constants from '../constants';
 
 function JoinRoom() {
-  const [formData, setFormData] = useState<{roomId: string}>({roomId: ''});
-
+  const [formData, setFormData] = useState<{ roomId: string }>({ roomId: '' });
+  const socketInfo = useContext(SocketContext);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    setFormData({...formData, roomId: params.get('roomId') as string});
+    setFormData({ ...formData, roomId: params.get('roomId') as string });
   }, []);
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
+    socketInfo.socket?.emit(constants.CREATE_ROOM, formData);
   }
 
   return (
@@ -21,7 +24,7 @@ function JoinRoom() {
       <div className="flex justify-center h-full items-center">
         <div
           className="bg-black bg-opacity-50 rounded-xl shadow-2xl border-2 border-orange-500"
-          style={{backdropFilter: 'blur(4px)'}}
+          style={{ backdropFilter: 'blur(4px)' }}
         >
           <form className="flex flex-col justify-center items-center py-12 px-10">
             <h1 className="text-4xl font-bold text-gray-100 text-center py-2">
@@ -31,10 +34,10 @@ function JoinRoom() {
               <Input
                 type="text"
                 value={formData.roomId}
-                onChange={e => setFormData({...formData, roomId: e.target.value})}
+                onChange={e => setFormData({ ...formData, roomId: e.target.value })}
                 placeholder="Room ID"
               />
-              <Button text="Join room" type="submit" onSubmit={handleSubmit} />
+              <SubmitButton text="Join room" type="submit" />
             </div>
           </form>
         </div>
