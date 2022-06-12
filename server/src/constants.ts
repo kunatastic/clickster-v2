@@ -9,3 +9,7 @@ export const ROOM_CREATED = 'ROOM_CREATED';
 export const ROOM_JOINED = 'ROOM_JOINED';
 
 export const ROOM_LEFT = 'ROOM_LEFT';
+
+export const CONNECTION = 'CONNECTION';
+
+export const UPDATE_SOCKET_ID = 'UPDATE_SOCKET_ID';
