@@ -6,12 +6,18 @@ import { SocketContext } from '../context/SocketProvider';
 import * as constants from '../constants';
 import { RoomData } from '../types';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Modal from '../components/Modal';
+import { Dialog } from '@headlessui/react';
+import CopyInviteLink from '../components/CopyInviteLink';
 
 function CreateRoom() {
   const [formData, setFormData] = useState<{ roomId: string; roomName: string }>({
     roomId: 'uorwen',
     roomName: 'Kunal',
   });
+
+  const [showModal, setShowModal] = useState(false);
 
   const socketInfo = useContext(SocketContext);
   const navigate = useNavigate();
@@ -25,9 +31,28 @@ function CreateRoom() {
   useEffect(() => {
     socketInfo.socket?.on(constants.ROOM_CREATED, (data: RoomData) => {
       if (data.msg === 'success') {
-        navigate(`/playground/${data?.room?.id}`);
+        // navigate(`/join-room/?roomId=${data.room?.id}`);
+        toast.success('Room created successfully', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setShowModal(true);
       } else {
-        alert(data.msg);
+        toast.error('12312' + data.msg, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setShowModal(true);
       }
     });
 
@@ -67,6 +92,20 @@ function CreateRoom() {
             </div>
           </form>
         </div>
+        <Modal
+          open={showModal}
+          onClose={() => setShowModal(false)}
+          children={
+            <>
+              <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                Copy the invite link below
+              </Dialog.Title>
+              <CopyInviteLink
+                url={`${window.location.origin}/join-room/?roomId=${formData.roomId}`}
+              />
+            </>
+          }
+        />
       </div>
     </>
   );
