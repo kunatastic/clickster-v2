@@ -35,7 +35,8 @@ class Connection {
   constructor(io: ioType, socket: Socket) {
     this.io = io;
     this.socket = socket;
-    socket.on(constants.CREATE_ROOM, (data: any) => this.createRoom(data));
+
+    socket.on(constants.CREATE_ROOM, (data: CreateRoomType) => this.createRoom(data));
     socket.on(constants.JOIN_ROOM, (data: any) => this.joinRoom(data));
     socket.on(constants.LEAVE_ROOM, (data: any) => this.leaveRoom(data));
     socket.on('disconnect', () => console.log('disconnected'));
@@ -50,13 +51,16 @@ class Connection {
     }
     const room: Room = { id: data.roomId, name: data.roomName, users: [] };
     rooms.push(room);
-    this.io.sockets.emit(constants.ROOM_CREATED, { msg: 'success', room });
+    console.log(`[+] Room created: ${room.id}`);
+    this.socket.emit(constants.ROOM_CREATED, { msg: 'success', room });
   }
 
   joinRoom(data: JoinRoomType) {
+    console.log('[+] User joined room: ', this.socket.id);
     const room: Room = rooms.find((r: Room) => r.id === data.roomId);
+    console.log(room, !room);
     if (!room) {
-      this.io.sockets.in(room.id).emit(constants.ROOM_CREATED, { msg: 'Room not found', room: null });
+      this.socket.emit(constants.ROOM_JOINED, { msg: 'Room not found', room: null });
       return;
     }
     room.users.push({ id: this.socket.id, name: data.userName, points: 0 });
