@@ -4,8 +4,8 @@ import { Link, useLocation } from 'react-router-dom';
 function Nav() {
   const NavLinks = [
     { href: '/', text: 'Home' },
-    { href: '/join-room', text: 'Join Room' },
-    { href: '/create-room', text: 'Create Room' },
+    { href: '/join-room/', text: 'Join Room' },
+    { href: '/create-room/', text: 'Create Room' },
   ];
   const location = useLocation();
 
