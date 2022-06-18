@@ -6,6 +6,7 @@ import { SocketContext } from '../context/SocketProvider';
 import * as constants from '../constants';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { CLICKSTER_USER_KEY } from '../config';
 
 interface JoinRoomType {
   roomId: string;
@@ -13,20 +14,23 @@ interface JoinRoomType {
 }
 
 function JoinRoom() {
-  const [formData, setFormData] = useState<JoinRoomType>({ userName: '', roomId: '' });
+  const [formData, setFormData] = useState<JoinRoomType>({
+    userName: 'kunal',
+    roomId: 'test-room-123',
+  });
   const socketInfo = useContext(SocketContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    setFormData({ ...formData, roomId: params.get('roomId') as string });
+    setFormData(state => ({ ...state, roomId: params.get('roomId') || state.roomId }));
   }, []);
 
   useEffect(() => {
     socketInfo.socket?.on(constants.ROOM_JOINED, (data: any) => {
+      console.log(data);
       if (data.msg === 'success') {
-        navigate(`/playground/${formData.roomId}`);
-        toast.success('Room joined successfully');
+        navigate(`/playground/${data?.room.id}`);
       } else {
         toast.error(data.msg);
       }
@@ -36,10 +40,11 @@ function JoinRoom() {
       socketInfo.socket?.off(constants.ROOM_JOINED);
       console.log('unsubscribed from room joined');
     };
-  }, [formData.roomId, navigate, socketInfo.socket]);
+  }, [navigate, socketInfo.socket]);
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
+    console.log(formData);
     socketInfo.socket?.emit(constants.JOIN_ROOM, formData);
   }
 

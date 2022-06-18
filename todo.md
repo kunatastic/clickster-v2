@@ -17,6 +17,7 @@ This tasks can be split into server's task and client's task.
  - [X] Setup Socket.io integration
  - [X] Basic template design for all the pages
  - [ ] Authentication/Authorization logic
+ - [X] Improve the click to copy functionality
  - [ ] Button having logic
  - [ ] Game logic
  - [ ] Leaderboard logic

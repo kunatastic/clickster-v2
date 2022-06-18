@@ -27,10 +27,9 @@ function SocketContextProvider(props: SocketProviderProps) {
       // if it is, then send the socket id to the server
       // so that the server can identify the user
       const socketId = localStorage.getItem(SOCKET_TOKEN_KEY);
-      if (socketId && socketId !== undefined) {
+      if (!socketId) {
         socket.emit(constants.UPDATE_SOCKET_ID, socketId);
       } else {
-        console.log(socket.id);
         localStorage.setItem(SOCKET_TOKEN_KEY, socket.id);
       }
     });

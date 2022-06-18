@@ -13,8 +13,8 @@ import CopyInviteLink from '../components/CopyInviteLink';
 
 function CreateRoom() {
   const [formData, setFormData] = useState<{ roomId: string; roomName: string }>({
-    roomId: 'uorwen',
-    roomName: 'Kunal',
+    roomId: 'test-room-123',
+    roomName: 'test',
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -43,7 +43,7 @@ function CreateRoom() {
         });
         setShowModal(true);
       } else {
-        toast.error('12312' + data.msg, {
+        toast.error(data.msg, {
           position: 'top-right',
           autoClose: 5000,
           hideProgressBar: false,
@@ -52,7 +52,6 @@ function CreateRoom() {
           draggable: true,
           progress: undefined,
         });
-        setShowModal(true);
       }
     });
 
@@ -97,12 +96,15 @@ function CreateRoom() {
           onClose={() => setShowModal(false)}
           children={
             <>
-              <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                Copy the invite link below
-              </Dialog.Title>
-              <CopyInviteLink
-                url={`${window.location.origin}/join-room/?roomId=${formData.roomId}`}
-              />
+              <div className="w-full">
+                <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                  Copy the invite link below
+                </Dialog.Title>
+                <CopyInviteLink
+                  url={`${window.location.origin}/join-room/?roomId=${formData.roomId}`}
+                  route={`/join-room/?roomId=${formData.roomId}`}
+                />
+              </div>
             </>
           }
         />
