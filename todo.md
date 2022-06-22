@@ -7,8 +7,8 @@ This tasks can be split into server's task and client's task.
  - [X] Setup an initial node.js application and configure eslint.
  - [X] Setup web-socket on server.
  - [X] Authentication/Authorization logic
- - [ ] Concurrent games logic
- - [ ] Data management logic
+ - [X] Concurrent games logic
+ - [X] Data management logic
 
 ## Client
 
@@ -16,8 +16,12 @@ This tasks can be split into server's task and client's task.
  - [X] Configuring routes to `create-room`, `join-room`, `home-page`, `game-page`
  - [X] Setup Socket.io integration
  - [X] Basic template design for all the pages
- - [ ] Authentication/Authorization logic
+ - [X] Authentication/Authorization logic
  - [X] Improve the click to copy functionality
- - [ ] Button having logic
- - [ ] Game logic
- - [ ] Leaderboard logic
+ - [X] Button having logic
+ - [X] Game logic
+ - [X] Leaderboard logic
+ - [X] Improved UI
+
+ - [ ] Improve the toastify
+ - [ ] Improve socket event listners
