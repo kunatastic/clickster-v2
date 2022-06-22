@@ -3,7 +3,7 @@ import { SocketContext } from '../context/SocketProvider';
 import { v4 as uuidv4 } from 'uuid';
 
 import * as constants from '../constants';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 interface MovableType {
@@ -20,17 +20,21 @@ function random() {
   return Math.floor(Math.random() * (end - start + 1)) + start;
 }
 
-function Movable() {
+interface MovableProps {
+  id: string;
+}
+
+function Movable(props: MovableProps) {
   const socketInfo = useContext(SocketContext);
   const params = useParams();
+  const navigate = useNavigate();
 
-  const [buttonId, setButton] = useState(() => uuidv4());
   const [position, setPosition] = useState<MovableType>({
     x: random(),
     y: random(),
     roomId: params.roomId || '',
     captured: false,
-    roundId: buttonId,
+    roundId: props.id,
   });
 
   function updatePosition() {
@@ -43,7 +47,7 @@ function Movable() {
   useEffect(() => {
     console.log('SPAWNED_LOCATION LISTENER ADDED');
     socketInfo.socket?.on(constants.SPAWNED_LOCATION, (data: any) => {
-      console.log(data.location);
+      console.log(data.location.roundId, position.roundId);
       if (data.msg === 'success') {
         if (data.location.roundId === position.roundId) {
           setPosition(data.location);
@@ -51,6 +55,7 @@ function Movable() {
       } else {
         console.log(data);
         toast.error(data.msg);
+        navigate(`/`);
       }
       // console.log(data);
     });
@@ -62,7 +67,7 @@ function Movable() {
 
   return (
     <div
-      className="bg-pink-600 bg-opacity-60 border-4 absolute cursor-pointer flex justify-center items-center rounded-full"
+      className="bg-pink-600 bg-opacity-60 border-4 absolute cursor-pointer flex justify-center items-center rounded-full z-50"
       style={{
         top: `${position.x}%`,
         left: `${position.y}%`,
@@ -75,7 +80,7 @@ function Movable() {
         updatePosition();
       }}
     >
-      {position.captured ? '🎉' : '🎯'}
+      {position.captured ? '&#128508;' : '&#128508;'}
     </div>
   );
 }

@@ -7,6 +7,7 @@ export interface Room {
   id: string;
   name: string;
   users: User[];
+  movableItems: string[];
 }
 
 export interface User {

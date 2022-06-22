@@ -16,7 +16,6 @@ function Container(props: ContainerProps) {
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         zIndex: 1,
-        backdropFilter: 'brightness(0.5)',
       }}
     >
       <div className="flex flex-col h-full">{props.children}</div>

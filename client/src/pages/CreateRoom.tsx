@@ -12,9 +12,14 @@ import { Dialog } from '@headlessui/react';
 import CopyInviteLink from '../components/CopyInviteLink';
 
 function CreateRoom() {
-  const [formData, setFormData] = useState<{ roomId: string; roomName: string }>({
+  const [formData, setFormData] = useState<{
+    roomId: string;
+    roomName: string;
+    movableItem: number;
+  }>({
     roomId: 'test-room-123',
     roomName: 'test',
+    movableItem: 2,
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -85,7 +90,12 @@ function CreateRoom() {
                 type="text"
                 value={formData.roomId}
                 onChange={e => setFormData({ ...formData, roomId: e.target.value })}
-                placeholder="Room ID"
+              />
+              <Input
+                type="number"
+                value={formData.movableItem.toString()}
+                onChange={e => setFormData({ ...formData, movableItem: parseInt(e.target.value) })}
+                placeholder="No. of movable buttons"
               />
               <SubmitButton text="Create room" type="submit" />
             </div>
